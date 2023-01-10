@@ -1,0 +1,18 @@
+spring:
+  datasource:
+    password: ${JDBC_DATABASE_PASSWORD}
+    url: ${JDBC_DATABASE_URL}
+    username: ${JDBC_DATABASE_USERNAME}
+  jpa:
+    open-in-view: false
+---
+spring:
+  datasource:
+    password: PostgreSQL.100
+    url: jdbc:postgresql://localhost:5432/cigolsoftware
+    username: postgres
+  jpa:
+    show-sql: true
+  profiles:
+    active:
+    - local
