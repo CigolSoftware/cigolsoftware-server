@@ -27,7 +27,7 @@ public class Logger {
 				logger.info(Constants.Logger.FORMAT, this.request.getAttribute(Constants.NAME), title,
 						this.mapper.writeValueAsString(object));
 			} catch (final JsonProcessingException e) {
-				throw new ControlledException(Reply.PROCESSING, false);
+				throw new ControlledException(Reply.PROCESSING, Boolean.FALSE);
 			}
 		}
 	}

@@ -7,14 +7,14 @@ public class ControlledException extends RuntimeException {
 	private static final long serialVersionUID = -7258925382603673873L;
 
 	private final Reply reply;
-	private final boolean treatment;
+	private final Boolean treatment;
 
 	public ControlledException(final Reply reply) {
 		this.reply = reply;
-		this.treatment = false;
+		this.treatment = Boolean.TRUE;
 	}
 
-	public ControlledException(final Reply reply, final boolean treatment) {
+	public ControlledException(final Reply reply, final Boolean treatment) {
 		this.reply = reply;
 		this.treatment = treatment;
 	}
@@ -23,7 +23,7 @@ public class ControlledException extends RuntimeException {
 		return this.reply;
 	}
 
-	public boolean getTreatment() {
+	public Boolean getTreatment() {
 		return this.treatment;
 	}
 

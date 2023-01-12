@@ -28,4 +28,9 @@ public class ProjectController {
 		return Body.ok(this.service.exists(dto));
 	}
 
+	@PostMapping(Constants.Mapping.SAVE)
+	public ResponseEntity<Body<ProjectDto>> save(@RequestBody @Valid final ProjectDto dto) {
+		return Body.ok(this.service.save(dto));
+	}
+
 }

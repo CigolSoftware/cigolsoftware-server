@@ -33,6 +33,7 @@ public class Constants {
 
 	public static final class Mapping {
 		public static final String EXISTS = "exists";
+		public static final String SAVE = "save";
 
 		private Mapping() {
 		}

@@ -21,20 +21,24 @@ public class Advice {
 
 	@ExceptionHandler(ControlledException.class)
 	public ResponseEntity<Body<Void>> controlled(final ControlledException exception) {
-		this.logger.info(exception.getTreatment() ? Constants.Logger.CONTROLLED : Constants.Logger.ERROR,
-				exception.getReply(), exception.getClass().getName());
-		return exception.getTreatment() ? Body.ok(exception.getReply()) : Tools.badRequest(exception.getReply());
+		this.info(exception.getReply(), exception);
+		return Boolean.TRUE.equals(exception.getTreatment()) ? Body.ok(exception.getReply())
+				: Tools.badRequest(exception.getReply());
+	}
+
+	private void info(final Reply reply, final Exception exception) {
+		this.logger.info(reply.name(), reply.getMessage(), exception.getClass().getName());
 	}
 
 	@ExceptionHandler({ HttpMessageNotReadableException.class, MethodArgumentNotValidException.class })
 	public ResponseEntity<Body<Void>> not(final Exception exception) {
-		this.logger.info(Constants.Logger.ERROR, Reply.NOT, exception.getClass().getName());
+		this.info(Reply.NOT, exception);
 		return Tools.badRequest(Reply.NOT);
 	}
 
 	@ExceptionHandler(HttpRequestMethodNotSupportedException.class)
 	public ResponseEntity<Body<Void>> supported(final HttpRequestMethodNotSupportedException exception) {
-		this.logger.info(Constants.Logger.ERROR, Reply.SUPPORTED, exception.getClass().getName());
+		this.info(Reply.SUPPORTED, exception);
 		return Tools.badRequest(Reply.SUPPORTED);
 	}
 

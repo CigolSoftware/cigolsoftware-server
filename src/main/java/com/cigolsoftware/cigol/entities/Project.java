@@ -17,12 +17,12 @@ public class Project extends ProjectDto {
 	@Id
 	@Override
 	public Long getId() {
-		return super.getId();
+		return this.id;
 	}
 
 	@Column(name = Constants.Column.NAME_PRO)
 	@Override
 	public String getName() {
-		return super.getName();
+		return this.name;
 	}
 }

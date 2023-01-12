@@ -9,7 +9,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 public class Body<R> {
 
 	public static Body<Void> body(final Reply reply) {
-		return new Body<>(reply.getMessage(), null);
+		return new Body<>(reply.getCode(), reply.getMessage(), null);
 	}
 
 	public static <R> ResponseEntity<Body<R>> ok(final R response) {
@@ -21,15 +21,21 @@ public class Body<R> {
 	}
 
 	private static <R> ResponseEntity<Body<R>> ok(final Reply reply, final R response) {
-		return ResponseEntity.ok(new Body<>(reply.getMessage(), response));
+		return ResponseEntity.ok(new Body<>(reply.getCode(), reply.getMessage(), response));
 	}
 
-	private String message;
-	private R response;
+	private final Integer code;
+	private final String message;
+	private final R response;
 
-	private Body(final String message, final R response) {
+	private Body(final Integer code, final String message, final R response) {
+		this.code = code;
 		this.message = message;
 		this.response = response;
+	}
+
+	public Integer getCode() {
+		return this.code;
 	}
 
 	public String getMessage() {
@@ -38,14 +44,6 @@ public class Body<R> {
 
 	public R getResponse() {
 		return this.response;
-	}
-
-	public void setMessage(final String message) {
-		this.message = message;
-	}
-
-	public void setResponse(final R response) {
-		this.response = response;
 	}
 
 }

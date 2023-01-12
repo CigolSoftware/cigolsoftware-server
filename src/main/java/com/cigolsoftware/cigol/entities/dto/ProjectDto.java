@@ -1,32 +1,26 @@
 package com.cigolsoftware.cigol.entities.dto;
 
+import java.util.Arrays;
 import java.util.Optional;
 
-import org.springframework.beans.BeanUtils;
-
-import com.cigolsoftware.cigol.entities.Project;
+import org.springframework.util.StringUtils;
 
 import jakarta.validation.constraints.NotEmpty;
 
 public class ProjectDto {
 
-	private Long id;
+	protected Long id;
 
 	@NotEmpty
-	private String name;
-
-	public Project dao() {
-		final var project = new Project();
-		BeanUtils.copyProperties(this, project);
-		return project;
-	}
+	protected String name;
 
 	public Long getId() {
 		return Optional.ofNullable(this.id).orElse(0L);
 	}
 
 	public String getName() {
-		return this.name;
+		return String.join(" ", Arrays.asList(this.name.split(" ")).stream().filter(s -> !s.trim().isEmpty())
+				.map(s -> StringUtils.capitalize(s.toLowerCase())).toList());
 	}
 
 	public void setId(final Long id) {
