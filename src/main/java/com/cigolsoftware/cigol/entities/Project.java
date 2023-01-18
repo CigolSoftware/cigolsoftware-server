@@ -1,5 +1,7 @@
 package com.cigolsoftware.cigol.entities;
 
+import java.time.LocalDateTime;
+
 import com.cigolsoftware.cigol.entities.dto.ProjectDto;
 import com.cigolsoftware.cigol.utilities.Constants;
 
@@ -8,8 +10,10 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.PrePersist;
+import jakarta.persistence.PreUpdate;
 
-@Entity(name = Constants.PROJECTS)
+@Entity(name = Constants.Mapping.PROJECTS)
 public class Project extends ProjectDto {
 
 	@Column(name = Constants.Column.ID_PRO)
@@ -20,9 +24,25 @@ public class Project extends ProjectDto {
 		return this.id;
 	}
 
+	@Column(name = Constants.Column.MODIFICATION_PRO)
+	@Override
+	public LocalDateTime getModification() {
+		return this.modification;
+	}
+
 	@Column(name = Constants.Column.NAME_PRO)
 	@Override
 	public String getName() {
 		return this.name;
+	}
+
+	@PrePersist
+	private void prePersist() {
+		this.modification = LocalDateTime.now();
+	}
+
+	@PreUpdate
+	private void preUpdate() {
+		this.modification = LocalDateTime.now();
 	}
 }

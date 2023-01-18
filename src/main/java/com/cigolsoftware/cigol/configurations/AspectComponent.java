@@ -27,7 +27,7 @@ public class AspectComponent {
 
 	@Before(Constants.Aspect.POINTCUT)
 	public void before(final JoinPoint point) {
-		this.request.setAttribute(Constants.NAME, UUID.randomUUID().toString().split("-")[0]);
+		this.request.setAttribute(Constants.Param.NAME, UUID.randomUUID().toString().split("-")[0]);
 		this.logger.info(Constants.Logger.REQUEST, point.getArgs(), point.getSignature().toShortString());
 	}
 

@@ -1,15 +1,19 @@
 package com.cigolsoftware.cigol.entities.dto;
 
-import java.util.Arrays;
+import java.time.LocalDateTime;
 import java.util.Optional;
 
-import org.springframework.util.StringUtils;
+import com.cigolsoftware.cigol.utilities.Tools;
+import com.fasterxml.jackson.annotation.JsonInclude;
 
 import jakarta.validation.constraints.NotEmpty;
 
+@JsonInclude(JsonInclude.Include.NON_EMPTY)
 public class ProjectDto {
 
 	protected Long id;
+
+	protected LocalDateTime modification;
 
 	@NotEmpty
 	protected String name;
@@ -18,13 +22,20 @@ public class ProjectDto {
 		return Optional.ofNullable(this.id).orElse(0L);
 	}
 
+	public LocalDateTime getModification() {
+		return this.modification;
+	}
+
 	public String getName() {
-		return String.join(" ", Arrays.asList(this.name.split(" ")).stream().filter(s -> !s.trim().isEmpty())
-				.map(s -> StringUtils.capitalize(s.toLowerCase())).toList());
+		return Tools.capitalizeAll(this.name);
 	}
 
 	public void setId(final Long id) {
 		this.id = id;
+	}
+
+	public void setModification(final LocalDateTime modification) {
+		this.modification = modification;
 	}
 
 	public void setName(final String name) {

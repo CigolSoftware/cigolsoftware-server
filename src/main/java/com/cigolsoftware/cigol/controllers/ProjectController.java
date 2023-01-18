@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.cigolsoftware.cigol.dto.Body;
+import com.cigolsoftware.cigol.dto.Filter;
+import com.cigolsoftware.cigol.dto.Page;
 import com.cigolsoftware.cigol.entities.dto.ProjectDto;
 import com.cigolsoftware.cigol.services.ProjectService;
 import com.cigolsoftware.cigol.utilities.Constants;
@@ -16,7 +18,7 @@ import com.cigolsoftware.cigol.utilities.Constants;
 import jakarta.validation.Valid;
 
 @CrossOrigin("*")
-@RequestMapping(Constants.PROJECTS)
+@RequestMapping(Constants.Mapping.PROJECTS)
 @RestController
 public class ProjectController {
 
@@ -26,6 +28,11 @@ public class ProjectController {
 	@PostMapping(Constants.Mapping.EXISTS)
 	public ResponseEntity<Body<Boolean>> exists(@RequestBody @Valid final ProjectDto dto) {
 		return Body.ok(this.service.exists(dto));
+	}
+
+	@PostMapping(Constants.Mapping.FILTER)
+	public ResponseEntity<Body<Page>> filter(@RequestBody @Valid final Filter filter) {
+		return Body.ok(this.service.filter(filter));
 	}
 
 	@PostMapping(Constants.Mapping.SAVE)

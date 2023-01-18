@@ -13,10 +13,19 @@ public class Constants {
 
 	public static final class Column {
 		public static final String ID_PRO = Param.ID + Column.PRO;
+		public static final String MODIFICATION_PRO = Constants.Filter.MODIFICATION + Column.PRO;
 		public static final String NAME_PRO = Param.NAME + Column.PRO;
 		private static final String PRO = "_pro";
 
 		private Column() {
+		}
+	}
+
+	public static final class Filter {
+		public static final String MODIFICATION = "modification";
+		public static final Integer SIZE = 20;
+
+		private Filter() {
 		}
 	}
 
@@ -33,6 +42,8 @@ public class Constants {
 
 	public static final class Mapping {
 		public static final String EXISTS = "exists";
+		public static final String FILTER = "filter";
+		public static final String PROJECTS = "projects";
 		public static final String SAVE = "save";
 
 		private Mapping() {
@@ -42,6 +53,7 @@ public class Constants {
 	public static final class Param {
 		public static final String ID = "id";
 		public static final String NAME = "name";
+		public static final String VALUE = "value";
 
 		private Param() {
 		}
@@ -53,9 +65,6 @@ public class Constants {
 		private Query() {
 		}
 	}
-
-	public static final String NAME = "name";
-	public static final String PROJECTS = "projects";
 
 	private Constants() {
 

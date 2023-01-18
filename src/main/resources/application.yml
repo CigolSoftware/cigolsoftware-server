@@ -7,12 +7,12 @@ spring:
     open-in-view: false
 ---
 spring:
+  config:
+    activate:
+      on-profile: local
   datasource:
     password: PostgreSQL.100
     url: jdbc:postgresql://localhost:5432/cigolsoftware
     username: postgres
   jpa:
     show-sql: true
-  profiles:
-    active:
-    - local

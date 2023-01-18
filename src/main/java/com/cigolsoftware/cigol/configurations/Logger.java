@@ -24,7 +24,7 @@ public class Logger {
 		final var logger = LoggerFactory.getLogger(name);
 		if (logger.isInfoEnabled()) {
 			try {
-				logger.info(Constants.Logger.FORMAT, this.request.getAttribute(Constants.NAME), title,
+				logger.info(Constants.Logger.FORMAT, this.request.getAttribute(Constants.Param.NAME), title,
 						this.mapper.writeValueAsString(object));
 			} catch (final JsonProcessingException e) {
 				throw new ControlledException(Reply.PROCESSING, Boolean.FALSE);
