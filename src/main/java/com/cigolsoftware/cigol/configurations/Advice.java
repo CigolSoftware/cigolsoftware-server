@@ -2,6 +2,7 @@ package com.cigolsoftware.cigol.configurations;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.HttpMediaTypeNotSupportedException;
@@ -13,7 +14,6 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import com.cigolsoftware.cigol.dto.Body;
 import com.cigolsoftware.cigol.enums.Reply;
 import com.cigolsoftware.cigol.utilities.Constants;
-import com.cigolsoftware.cigol.utilities.Tools;
 
 @ControllerAdvice
 public class Advice {
@@ -21,18 +21,24 @@ public class Advice {
 	@Autowired
 	private Logger logger;
 
+	@ExceptionHandler(EmptyResultDataAccessException.class)
+	public ResponseEntity<Body<Void>> accessException(final EmptyResultDataAccessException exception) {
+		this.info(Reply.NONEXISTS, exception);
+		return Body.badRequest(Reply.NONEXISTS);
+	}
+
 	@ExceptionHandler(ControlledException.class)
 	public ResponseEntity<Body<Void>> controlledException(final ControlledException exception) {
 		this.info(exception.getReply(), exception);
 		return Boolean.TRUE.equals(exception.getTreatment()) ? Body.ok(exception.getReply())
-				: Tools.badRequest(exception.getReply());
+				: Body.badRequest(exception.getReply());
 	}
 
 	@ExceptionHandler({ HttpMediaTypeNotSupportedException.class, HttpMessageNotReadableException.class,
 			MethodArgumentNotValidException.class })
 	public ResponseEntity<Body<Void>> exception(final Exception exception) {
 		this.info(Reply.NOT, exception);
-		return Tools.badRequest(Reply.NOT);
+		return Body.badRequest(Reply.NOT);
 	}
 
 	private void info(final Reply reply, final Exception exception) {
@@ -42,7 +48,7 @@ public class Advice {
 	@ExceptionHandler(HttpRequestMethodNotSupportedException.class)
 	public ResponseEntity<Body<Void>> supportedException(final HttpRequestMethodNotSupportedException exception) {
 		this.info(Reply.SUPPORTED, exception);
-		return Tools.badRequest(Reply.SUPPORTED);
+		return Body.badRequest(Reply.SUPPORTED);
 	}
 
 	@ExceptionHandler(Throwable.class)
@@ -54,7 +60,7 @@ public class Advice {
 	@ExceptionHandler(DataIntegrityViolationException.class)
 	public ResponseEntity<Body<Void>> violationException(final Exception exception) {
 		this.info(Reply.EXISTS, exception);
-		return Body.ok(Reply.EXISTS);
+		return Body.badRequest(Reply.EXISTS);
 	}
 
 }

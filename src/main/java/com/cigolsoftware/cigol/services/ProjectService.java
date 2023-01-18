@@ -20,6 +20,10 @@ public class ProjectService {
 	@Autowired
 	private ProjectRepository repository;
 
+	public void delete(final Long id) {
+		this.repository.deleteById(id);
+	}
+
 	public Boolean exists(final ProjectDto dto) {
 		return this.repository.exists(dto.getId(), dto.getName());
 	}
