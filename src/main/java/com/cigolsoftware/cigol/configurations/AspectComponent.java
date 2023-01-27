@@ -28,7 +28,7 @@ public class AspectComponent {
 	@Before(Constants.Aspect.POINTCUT)
 	public void before(final JoinPoint point) {
 		this.request.setAttribute(Constants.Param.NAME, UUID.randomUUID().toString().split("-")[0]);
-		this.logger.info(Constants.Logger.REQUEST, point.getArgs(), point.getSignature().toShortString());
+		this.logger.info(Constants.Logger.REQUEST, point.getArgs());
 	}
 
 	@Pointcut(Constants.Aspect.ANNOTATION)
@@ -38,6 +38,6 @@ public class AspectComponent {
 
 	@AfterReturning(pointcut = Constants.Aspect.POINTCUT, returning = Constants.Aspect.ENTITY)
 	public void returning(final JoinPoint point, final ResponseEntity<?> entity) {
-		this.logger.info(Constants.Logger.RESPONSE, entity.getBody(), point.getSignature().toShortString());
+		this.logger.info(Constants.Logger.RESPONSE, entity.getBody());
 	}
 }

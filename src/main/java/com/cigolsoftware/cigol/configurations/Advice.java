@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 
 import com.cigolsoftware.cigol.dto.Body;
 import com.cigolsoftware.cigol.enums.Reply;
-import com.cigolsoftware.cigol.utilities.Constants;
 
 @ControllerAdvice
 public class Advice {
@@ -23,13 +22,13 @@ public class Advice {
 
 	@ExceptionHandler(EmptyResultDataAccessException.class)
 	public ResponseEntity<Body<Void>> accessException(final EmptyResultDataAccessException exception) {
-		this.info(Reply.NONEXISTS, exception);
+		this.info(exception, Reply.NONEXISTS);
 		return Body.badRequest(Reply.NONEXISTS);
 	}
 
 	@ExceptionHandler(ControlledException.class)
 	public ResponseEntity<Body<Void>> controlledException(final ControlledException exception) {
-		this.info(exception.getReply(), exception);
+		this.info(exception, exception.getReply());
 		return Boolean.TRUE.equals(exception.getTreatment()) ? Body.ok(exception.getReply())
 				: Body.badRequest(exception.getReply());
 	}
@@ -37,29 +36,29 @@ public class Advice {
 	@ExceptionHandler({ HttpMediaTypeNotSupportedException.class, HttpMessageNotReadableException.class,
 			MethodArgumentNotValidException.class })
 	public ResponseEntity<Body<Void>> exception(final Exception exception) {
-		this.info(Reply.NOT, exception);
+		this.info(exception, Reply.NOT);
 		return Body.badRequest(Reply.NOT);
 	}
 
-	private void info(final Reply reply, final Exception exception) {
-		this.logger.info(reply.name(), reply.getMessage(), exception.getClass().getName());
+	private void info(final Exception exception, final Reply reply) {
+		this.logger.info(exception.getClass().toString(), reply.getMessage());
 	}
 
 	@ExceptionHandler(HttpRequestMethodNotSupportedException.class)
 	public ResponseEntity<Body<Void>> supportedException(final HttpRequestMethodNotSupportedException exception) {
-		this.info(Reply.SUPPORTED, exception);
+		this.info(exception, Reply.SUPPORTED);
 		return Body.badRequest(Reply.SUPPORTED);
 	}
 
 	@ExceptionHandler(Throwable.class)
 	public ResponseEntity<Body<Void>> throwable(final Throwable throwable) {
-		this.logger.info(Constants.Logger.ERROR, throwable.getLocalizedMessage(), throwable.getClass().getName());
+		this.logger.info(throwable.getClass().toString(), throwable.getLocalizedMessage());
 		return ResponseEntity.internalServerError().body(Body.body(Reply.THROWABLE));
 	}
 
 	@ExceptionHandler(DataIntegrityViolationException.class)
 	public ResponseEntity<Body<Void>> violationException(final Exception exception) {
-		this.info(Reply.EXISTS, exception);
+		this.info(exception, Reply.EXISTS);
 		return Body.badRequest(Reply.EXISTS);
 	}
 

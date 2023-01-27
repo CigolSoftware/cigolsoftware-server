@@ -20,12 +20,12 @@ public class Logger {
 	@Autowired
 	private HttpServletRequest request;
 
-	public void info(final String title, final Object object, final String name) {
-		final var logger = LoggerFactory.getLogger(name);
+	public void info(final String title, final Object object) {
+		final var logger = LoggerFactory
+				.getLogger("[" + this.request.getAttribute(Constants.Param.NAME) + "]" + this.request.getRequestURI());
 		if (logger.isInfoEnabled()) {
 			try {
-				logger.info(Constants.Logger.FORMAT, this.request.getAttribute(Constants.Param.NAME), title,
-						this.mapper.writeValueAsString(object));
+				logger.info(Constants.Logger.FORMAT, title, this.mapper.writeValueAsString(object));
 			} catch (final JsonProcessingException e) {
 				throw new ControlledException(Reply.PROCESSING, Boolean.FALSE);
 			}

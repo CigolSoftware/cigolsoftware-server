@@ -2,7 +2,6 @@ package com.cigolsoftware.cigol.services;
 
 import java.util.Optional;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
@@ -15,17 +14,10 @@ import com.cigolsoftware.cigol.utilities.Constants;
 import com.cigolsoftware.cigol.utilities.Tools;
 
 @Service
-public class ProjectService {
-
-	@Autowired
-	private ProjectRepository repository;
+public class ProjectService extends DaoService<Project, ProjectRepository, ProjectDto> {
 
 	public void delete(final Long id) {
 		this.repository.deleteById(id);
-	}
-
-	public Boolean exists(final ProjectDto dto) {
-		return this.repository.exists(dto.getId(), dto.getName());
 	}
 
 	public Page filter(final Filter filter) {
