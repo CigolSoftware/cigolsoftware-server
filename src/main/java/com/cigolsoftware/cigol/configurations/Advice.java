@@ -1,6 +1,7 @@
 package com.cigolsoftware.cigol.configurations;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.ResponseEntity;
@@ -26,6 +27,14 @@ public class Advice {
 		return Body.badRequest(Reply.NONEXISTS);
 	}
 
+	@ExceptionHandler(MethodArgumentNotValidException.class)
+	public ResponseEntity<Body<Void>> argument(final MethodArgumentNotValidException exception) {
+		this.info(exception, Reply.NOT);
+		final var resolvable = exception.getFieldError();
+		return Body.argument(((DefaultMessageSourceResolvable) resolvable.getArguments()[0]).getCode() + "|"
+				+ resolvable.getDefaultMessage());
+	}
+
 	@ExceptionHandler(ControlledException.class)
 	public ResponseEntity<Body<Void>> controlledException(final ControlledException exception) {
 		this.info(exception, exception.getReply());
@@ -33,15 +42,14 @@ public class Advice {
 				: Body.badRequest(exception.getReply());
 	}
 
-	@ExceptionHandler({ HttpMediaTypeNotSupportedException.class, HttpMessageNotReadableException.class,
-			MethodArgumentNotValidException.class })
+	@ExceptionHandler({ HttpMediaTypeNotSupportedException.class, HttpMessageNotReadableException.class })
 	public ResponseEntity<Body<Void>> exception(final Exception exception) {
 		this.info(exception, Reply.NOT);
 		return Body.badRequest(Reply.NOT);
 	}
 
 	private void info(final Exception exception, final Reply reply) {
-		this.logger.info(exception.getClass().toString(), reply.getMessage());
+		this.logger.info(exception.getClass().getSimpleName(), reply.getMessage());
 	}
 
 	@ExceptionHandler(HttpRequestMethodNotSupportedException.class)

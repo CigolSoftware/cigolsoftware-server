@@ -31,8 +31,4 @@ public class ProjectService extends DaoService<Project, ProjectRepository, Proje
 				findAll.getTotalElements());
 	}
 
-	public ProjectDto save(final ProjectDto dto) {
-		return Tools.copyProperties(this.repository.save(Tools.copyProperties(dto, new Project())), new ProjectDto());
-	}
-
 }

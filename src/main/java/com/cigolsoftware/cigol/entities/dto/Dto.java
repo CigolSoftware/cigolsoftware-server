@@ -9,13 +9,15 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import jakarta.validation.constraints.NotEmpty;
 
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
-public class Dto {
+public abstract class Dto<D> {
 
 	protected Long id;
 	protected LocalDateTime modification;
 
 	@NotEmpty
 	protected String name;
+
+	public abstract D dao();
 
 	public Long getId() {
 		return Optional.ofNullable(this.id).orElse(0L);

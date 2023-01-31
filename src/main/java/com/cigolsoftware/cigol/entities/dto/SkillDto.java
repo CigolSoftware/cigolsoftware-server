@@ -1,10 +1,22 @@
 package com.cigolsoftware.cigol.entities.dto;
 
-public class SkillDto extends Dto {
+import com.cigolsoftware.cigol.entities.Skill;
+import com.cigolsoftware.cigol.utilities.Tools;
 
+import jakarta.validation.constraints.Min;
+
+public class SkillDto extends Dto<Skill> {
+
+	@Min(0)
 	protected Integer easy;
+
 	protected Integer hard;
 	protected Integer normal;
+
+	@Override
+	public Skill dao() {
+		return Tools.copyProperties(this, new Skill());
+	}
 
 	public Integer getEasy() {
 		return this.easy;

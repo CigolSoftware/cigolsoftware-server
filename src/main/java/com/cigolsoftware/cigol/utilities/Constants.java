@@ -3,7 +3,7 @@ package com.cigolsoftware.cigol.utilities;
 public class Constants {
 
 	public static final class Aspect {
-		public static final String ANNOTATION = "@annotation(org.springframework.web.bind.annotation.DeleteMapping) || @annotation(org.springframework.web.bind.annotation.PostMapping)";
+		public static final String ANNOTATION = "@annotation(org.springframework.web.bind.annotation.DeleteMapping) || @annotation(org.springframework.web.bind.annotation.PostMapping) || @within(com.cigolsoftware.cigol.configurations.ControllerMapping)";
 		public static final String ENTITY = "entity";
 		public static final String POINTCUT = "pointcut()";
 

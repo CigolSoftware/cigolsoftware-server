@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 
 import com.cigolsoftware.cigol.entities.dto.SkillDto;
 import com.cigolsoftware.cigol.utilities.Constants;
+import com.cigolsoftware.cigol.utilities.Tools;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -14,7 +15,12 @@ import jakarta.persistence.PrePersist;
 import jakarta.persistence.PreUpdate;
 
 @Entity(name = Constants.Mapping.SKILLS)
-public class Skill extends SkillDto {
+public class Skill extends SkillDto implements Dao<SkillDto> {
+
+	@Override
+	public SkillDto dto() {
+		return Tools.copyProperties(this, new SkillDto());
+	}
 
 	@Column(name = Constants.Column.EASY_SKI)
 	@Override
@@ -51,7 +57,7 @@ public class Skill extends SkillDto {
 	@Column(name = Constants.Column.NORMAL_SKI)
 	@Override
 	public Integer getNormal() {
-		return this.easy;
+		return this.normal;
 	}
 
 	@PrePersist
@@ -63,4 +69,5 @@ public class Skill extends SkillDto {
 	private void preUpdate() {
 		this.modification = LocalDateTime.now();
 	}
+
 }

@@ -2,11 +2,13 @@ package com.cigolsoftware.cigol.dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
 public class Filter {
 
+	@Min(0)
 	@NotNull
 	private Integer page;
 	private Integer size;

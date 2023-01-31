@@ -8,6 +8,10 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
 public class Body<R> {
 
+	public static ResponseEntity<Body<Void>> argument(final String message) {
+		return ResponseEntity.badRequest().body(new Body<>(1, message, null));
+	}
+
 	public static ResponseEntity<Body<Void>> badRequest(final Reply reply) {
 		return ResponseEntity.badRequest().body(Body.body(reply));
 	}

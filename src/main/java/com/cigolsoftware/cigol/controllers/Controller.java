@@ -12,7 +12,7 @@ import com.cigolsoftware.cigol.utilities.Constants;
 
 import jakarta.validation.Valid;
 
-public class Controller<D extends Dto, S extends DaoService<?, ?, D>> {
+public class Controller<D extends Dto<?>, S extends DaoService<?, ?, D>> {
 
 	@Autowired
 	protected S service;
@@ -20,6 +20,11 @@ public class Controller<D extends Dto, S extends DaoService<?, ?, D>> {
 	@PostMapping(Constants.Mapping.EXISTS)
 	public ResponseEntity<Body<Boolean>> exists(@RequestBody @Valid final D dto) {
 		return Body.ok(this.service.exists(dto));
+	}
+
+	@PostMapping(Constants.Mapping.SAVE)
+	public ResponseEntity<Body<D>> save(@RequestBody @Valid final D dto) {
+		return Body.ok(this.service.save(dto));
 	}
 
 }
